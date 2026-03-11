@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+# SvelteKit handles all routing via Netlify Functions
+# No custom redirects needed — the adapter takes care of it
