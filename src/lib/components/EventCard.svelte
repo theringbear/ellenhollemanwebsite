@@ -7,7 +7,7 @@
 	let { event, upcoming = false, happeningNow = false } = $props();
 
 	let imageUrl = $derived(event.image
-		? assetUrl(event.image, { width: '600', height: '400', fit: 'cover', quality: '80', format: 'webp' })
+		? assetUrl(event.image, { width: '600', quality: '80', format: 'webp' })
 		: '');
 
 	let formattedDate = $derived(() => {
@@ -113,13 +113,21 @@
 		border-radius: var(--radius-lg);
 		overflow: hidden;
 		aspect-ratio: 3 / 2;
-		background: var(--color-border-light);
+		/* background: linear-gradient(
+			135deg,
+			var(--color-surface, var(--color-border-light)) 0%,
+			var(--color-border-light) 50%,
+			var(--color-surface, var(--color-border-light)) 100%
+		); */
+		background: #fff;
+		border: 2px solid var(--color-border-light);
 	}
 
 	.event-media img {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
+		padding: var(--space-sm);
 	}
 
 	.event-video {
