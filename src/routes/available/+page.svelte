@@ -3,7 +3,28 @@
 	import SEO from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
+
+	let columnCount = $state(3);
+
+	let columns = $derived.by(() => {
+		const cols = Array.from({ length: columnCount }, () => []);
+		data.artworks.forEach((item, i) => cols[i % columnCount].push(item));
+		return cols;
+	});
+
+	function updateColumns() {
+		if (typeof window === 'undefined') return;
+		if (window.innerWidth <= 600) columnCount = 1;
+		else if (window.innerWidth <= 900) columnCount = 2;
+		else columnCount = 3;
+	}
+
+	$effect(() => {
+		updateColumns();
+	});
 </script>
+
+<svelte:window onresize={updateColumns} />
 
 <svelte:head>
 	<title>{data.pageTitles.available} — {data.siteName}</title>
@@ -19,9 +40,13 @@
 		<h1 class="section-title">{data.pageTitles.available}</h1>
 
 		{#if data.artworks.length > 0}
-			<div class="artwork-grid">
-				{#each data.artworks as artwork}
-					<ArtworkCard {artwork} showPrice={true} />
+			<div class="masonry">
+				{#each columns as col}
+					<div class="masonry-col">
+						{#each col as artwork}
+							<ArtworkCard {artwork} showPrice={true} />
+						{/each}
+					</div>
 				{/each}
 			</div>
 		{:else}
@@ -31,9 +56,15 @@
 </div>
 
 <style>
-	.artwork-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	.masonry {
+		display: flex;
+		gap: var(--space-2xl);
+	}
+
+	.masonry-col {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
 		gap: var(--space-2xl);
 	}
 
@@ -47,11 +78,5 @@
 	.empty-state a {
 		color: var(--color-text);
 		text-decoration: underline;
-	}
-
-	@media (max-width: 768px) {
-		.artwork-grid {
-			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-		}
 	}
 </style>

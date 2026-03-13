@@ -6,6 +6,7 @@
 
 	let activeCategory = $state('all');
 	let activeAvailability = $state('all');
+	let columnCount = $state(3);
 
 	const categories = [
 		{ slug: 'all', title: 'All' },
@@ -49,7 +50,28 @@
 		}
 		return result;
 	});
+
+	// Distribute items round-robin across columns so reading order is left→right, top→bottom
+	let columns = $derived.by(() => {
+		const cols = Array.from({ length: columnCount }, () => []);
+		filteredArtworks.forEach((item, i) => cols[i % columnCount].push(item));
+		return cols;
+	});
+
+	// Update column count based on viewport width
+	function updateColumns() {
+		if (typeof window === 'undefined') return;
+		if (window.innerWidth <= 600) columnCount = 1;
+		else if (window.innerWidth <= 900) columnCount = 2;
+		else columnCount = 3;
+	}
+
+	$effect(() => {
+		updateColumns();
+	});
 </script>
+
+<svelte:window onresize={updateColumns} />
 
 <svelte:head>
 	<title>{data.pageTitles.portfolio} — {data.siteName}</title>
@@ -99,9 +121,13 @@
 
 		<!-- Artwork Grid -->
 		{#if filteredArtworks.length > 0}
-			<div class="artwork-grid">
-				{#each filteredArtworks as artwork (artwork.id || artwork.slug)}
-					<ArtworkCard {artwork} />
+			<div class="masonry">
+				{#each columns as col, colIdx}
+					<div class="masonry-col">
+						{#each col as artwork (artwork.id || artwork.slug)}
+							<ArtworkCard {artwork} />
+						{/each}
+					</div>
 				{/each}
 			</div>
 		{:else}
@@ -171,11 +197,17 @@
 		border-color: var(--color-text);
 	}
 
-	.artwork-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+	.masonry {
+		display: flex;
 		gap: var(--space-xl);
 		margin-top: var(--space-2xl);
+	}
+
+	.masonry-col {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xl);
 	}
 
 	.empty-state {
@@ -183,17 +215,5 @@
 		color: var(--color-text-muted);
 		font-size: var(--step-1);
 		padding: var(--space-4xl) 0;
-	}
-
-	@media (max-width: 900px) {
-		.artwork-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (max-width: 600px) {
-		.artwork-grid {
-			grid-template-columns: 1fr;
-		}
 	}
 </style>

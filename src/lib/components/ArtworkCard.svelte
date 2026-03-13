@@ -95,16 +95,15 @@
 
 	.artwork-image-wrap {
 		position: relative;
-		aspect-ratio: 1;
 		border-radius: var(--radius-xl);
 		overflow: hidden;
-		background: var(--color-border-light);
+		background: var(--color-bg);
+		border: 2px solid var(--color-border-light);
 	}
 
 	.artwork-image-wrap img {
 		width: 100%;
-		height: 100%;
-		object-fit: contain;
+		height: auto;
 		display: block;
 		transition: transform var(--transition-slow);
 	}
