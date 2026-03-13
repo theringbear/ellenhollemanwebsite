@@ -1,11 +1,12 @@
 import { getArtworks, getArchiveItems } from "$lib/directus";
-import { PUBLIC_SITE_URL } from "$env/static/public";
+
+const SITE_URL = "https://ellenhollemanwebsite.netlify.app";
 
 export const prerender = true;
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET() {
-  const siteUrl = PUBLIC_SITE_URL || "https://www.ellenholleman.nl";
+  const siteUrl = SITE_URL;
 
   const [artworks, archiveItems] = await Promise.all([
     getArtworks(),

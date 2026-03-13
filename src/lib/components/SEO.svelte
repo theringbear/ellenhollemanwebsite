@@ -1,6 +1,7 @@
 <script>
-	import { PUBLIC_SITE_URL } from '$env/static/public';
 	import { page } from '$app/state';
+
+	const SITE_URL = 'https://ellenhollemanwebsite.netlify.app';
 
 	/**
 	 * @type {{
@@ -21,8 +22,8 @@
 		jsonLd = null
 	} = $props();
 
-	let canonicalUrl = $derived(`${PUBLIC_SITE_URL}${page.url.pathname}`);
-	let ogImage = $derived(image || `${PUBLIC_SITE_URL}/favicon/android-chrome-384x384.png`);
+	let canonicalUrl = $derived(`${SITE_URL}${page.url.pathname}`);
+	let ogImage = $derived(image || `${SITE_URL}/favicon/android-chrome-384x384.png`);
 </script>
 
 <svelte:head>
