@@ -113,7 +113,6 @@
 		font-family: 'Inter', sans-serif;
 		font-size: var(--step--1);
 		font-weight: 500;
-		letter-spacing: 0.08em;
 		margin-bottom: var(--space-md);
 	}
 

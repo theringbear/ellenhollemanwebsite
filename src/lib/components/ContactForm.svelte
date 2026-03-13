@@ -131,7 +131,7 @@
 	}
 
 	input::placeholder, textarea::placeholder {
-		color: var(--color-text);
+		color: var(--color-text-secondary);
         font-weight: 300;
 	}
 
