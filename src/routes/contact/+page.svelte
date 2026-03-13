@@ -1,6 +1,7 @@
 <script>
 	import ContactForm from '$lib/components/ContactForm.svelte';
 	import NewsletterModal from '$lib/components/NewsletterModal.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 	let showNewsletter = $state(false);
@@ -9,6 +10,11 @@
 <svelte:head>
 	<title>{data.pageTitles.contact} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.pageTitles.contact} — {data.siteName}"
+	description="Get in touch with Ellen Holleman for artwork inquiries, collaborations, or commissions."
+/>
 
 <div class="container">
 	<section class="contact-section">

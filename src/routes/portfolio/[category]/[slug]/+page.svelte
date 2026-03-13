@@ -1,6 +1,7 @@
 <script>
 	import Carousel from '$lib/components/Carousel.svelte';
 	import ContactForm from '$lib/components/ContactForm.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 	import { assetUrl } from '$lib/directus';
 
 	let { data } = $props();
@@ -47,6 +48,24 @@
 <svelte:head>
 	<title>{data.artwork.title} — {data.categoryTitle} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.artwork.title} — {data.categoryTitle} — {data.siteName}"
+	description="{data.artwork.title}{data.artwork.materials ? ` — ${data.artwork.materials}` : ''}{data.artwork.dimensions ? `, ${data.artwork.dimensions}` : ''} by Ellen Holleman."
+	image={data.artwork.images?.[0]?.directus_files_id ? assetUrl(data.artwork.images[0].directus_files_id, { width: '1200', height: '630', fit: 'cover', quality: '85', format: 'webp' }) : ''}
+	type="article"
+	jsonLd={{
+		'@context': 'https://schema.org',
+		'@type': 'VisualArtwork',
+		name: data.artwork.title,
+		artist: { '@type': 'Person', name: 'Ellen Holleman' },
+		artMedium: data.artwork.materials || undefined,
+		artform: data.categoryTitle,
+		dateCreated: data.artwork.year || undefined,
+		image: data.artwork.images?.[0]?.directus_files_id ? assetUrl(data.artwork.images[0].directus_files_id, { width: '1200', quality: '85' }) : undefined,
+		offers: data.artwork.availability === 'available' ? { '@type': 'Offer', availability: 'https://schema.org/InStock', priceCurrency: 'EUR' } : undefined
+	}}
+/>
 
 <div class="container detail-page">
 	<a href="/portfolio" class="back-btn">

@@ -1,5 +1,6 @@
 <script>
 	import Carousel from '$lib/components/Carousel.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 	import { assetUrl } from '$lib/directus';
 
 	let { data } = $props();
@@ -19,8 +20,24 @@
 
 <svelte:head>
 	<title>{data.pageTitles.about} — {data.siteName}</title>
-	<meta name="description" content="Learn about {data.siteName}, a Dutch painter, mixed-media artist, and spatial designer." />
 </svelte:head>
+
+<SEO
+	title="{data.pageTitles.about} — {data.siteName}"
+	description="Learn about Ellen Holleman, a Dutch painter, mixed-media artist, and spatial designer based in Zaltbommel, Netherlands."
+	jsonLd={{
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		name: 'Ellen Holleman',
+		jobTitle: 'Visual Artist',
+		url: 'https://www.ellenholleman.nl/about',
+		sameAs: [
+			data.siteSettings?.social_instagram || '',
+			data.siteSettings?.social_facebook || '',
+			data.siteSettings?.social_linkedin || ''
+		].filter(Boolean)
+	}}
+/>
 
 <div class="container">
 	<section class="about-section">

@@ -1,10 +1,17 @@
 <script>
+	import SEO from '$lib/components/SEO.svelte';
 	let { data } = $props();
 </script>
 
 <svelte:head>
 	<title>{data.page?.title || 'Terms & Conditions'} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.page?.title || 'Terms & Conditions'} — {data.siteName}"
+	description="Terms and conditions for Ellen Holleman's website and artwork sales."
+	noindex={true}
+/>
 
 <div class="container">
 	<section class="static-page">

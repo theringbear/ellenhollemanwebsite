@@ -1,5 +1,6 @@
 <script>
 	import ArtworkCard from '$lib/components/ArtworkCard.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 </script>
@@ -7,6 +8,11 @@
 <svelte:head>
 	<title>{data.categoryTitle} — {data.pageTitles.portfolio} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.categoryTitle} — {data.pageTitles.portfolio} — {data.siteName}"
+	description="{data.categoryTitle} artworks by Ellen Holleman — explore the collection."
+/>
 
 <div class="container">
 	<section class="section">

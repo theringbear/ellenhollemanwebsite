@@ -1,5 +1,6 @@
 <script>
 	import EventCard from '$lib/components/EventCard.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 
@@ -46,6 +47,11 @@
 <svelte:head>
 	<title>{data.pageTitles.calendar} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.pageTitles.calendar} — {data.siteName}"
+	description="Upcoming and past exhibitions, open studios, and events by Ellen Holleman, visual artist."
+/>
 
 <div class="container">
 	<section class="calendar-section">

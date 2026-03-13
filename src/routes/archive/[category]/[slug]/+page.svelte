@@ -1,5 +1,6 @@
 <script>
 	import Carousel from '$lib/components/Carousel.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 	import { assetUrl } from '$lib/directus';
 
 	let { data } = $props();
@@ -39,6 +40,13 @@
 <svelte:head>
 	<title>{data.item.title} — {data.categoryTitle} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.item.title} — {data.categoryTitle} — {data.siteName}"
+	description="{data.item.title} — {data.categoryTitle} project by Ellen Holleman."
+	image={data.item.images?.[0]?.directus_files_id ? assetUrl(data.item.images[0].directus_files_id, { width: '1200', height: '630', fit: 'cover', quality: '85', format: 'webp' }) : ''}
+	type="article"
+/>
 
 <article class="article-page">
 	<div class="container">

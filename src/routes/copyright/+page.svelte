@@ -1,10 +1,17 @@
 <script>
+	import SEO from '$lib/components/SEO.svelte';
 	let { data } = $props();
 </script>
 
 <svelte:head>
 	<title>{data.page?.title || 'Copyright'} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.page?.title || 'Copyright'} — {data.siteName}"
+	description="Copyright information for Ellen Holleman's artworks and website content."
+	noindex={true}
+/>
 
 <div class="container">
 	<section class="static-page">

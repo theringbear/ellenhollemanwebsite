@@ -1,5 +1,6 @@
 <script>
 	import ArchiveCard from '$lib/components/ArchiveCard.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 
@@ -28,6 +29,11 @@
 <svelte:head>
 	<title>{data.pageTitles.archive} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.pageTitles.archive} — {data.siteName}"
+	description="Browse the archive of Ellen Holleman — cultural productions, urban activism, spatial design, and special projects."
+/>
 
 <div class="container">
 	<section class="archive-section">

@@ -1,6 +1,7 @@
 <script>
 	import Carousel from '$lib/components/Carousel.svelte';
 	import NewsletterModal from '$lib/components/NewsletterModal.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 	import { assetUrl } from '$lib/directus';
 	import { onMount } from 'svelte';
 
@@ -38,8 +39,20 @@
 
 <svelte:head>
 	<title>{data.siteName} — {data.pageTitles.home}</title>
-	<meta name="description" content="{data.siteSettings?.description || 'Ellen Holleman is a painter, mixed-media visual artist, and spatial designer based in Zaltbommel, Netherlands.'}" />
 </svelte:head>
+
+<SEO
+	title="{data.siteName} — {data.pageTitles.home}"
+	description={data.siteSettings?.description || 'Ellen Holleman is a painter, mixed-media visual artist, and spatial designer based in Zaltbommel, Netherlands.'}
+	jsonLd={{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: data.siteName,
+		url: 'https://www.ellenholleman.nl',
+		description: data.siteSettings?.description || 'Ellen Holleman is a painter, mixed-media visual artist, and spatial designer based in Zaltbommel, Netherlands.',
+		author: { '@type': 'Person', name: 'Ellen Holleman', jobTitle: 'Visual Artist' }
+	}}
+/>
 
 <!-- Hero Carousel -->
 <section class="hero">

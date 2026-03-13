@@ -1,5 +1,6 @@
 <script>
 	import ArtworkCard from '$lib/components/ArtworkCard.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 
 	let { data } = $props();
 
@@ -53,6 +54,11 @@
 <svelte:head>
 	<title>{data.pageTitles.portfolio} — {data.siteName}</title>
 </svelte:head>
+
+<SEO
+	title="{data.pageTitles.portfolio} — {data.siteName}"
+	description="Explore the portfolio of Ellen Holleman — paintings, mixed media, portraits, and murals by a Dutch visual artist."
+/>
 
 <div class="container">
 	<section class="portfolio-section">
