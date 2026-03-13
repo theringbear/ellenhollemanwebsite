@@ -107,7 +107,6 @@
 		font-family: 'Inter', sans-serif;
 		font-size: var(--step--1);
 		font-weight: 500;
-		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		margin-bottom: var(--space-md);
 	}

@@ -7,6 +7,9 @@
 	let { open = $bindable(false), onclose = () => {} } = $props();
 
 	let dialogEl = $state(null);
+	let sending = $state(false);
+	let sent = $state(false);
+	let error = $state('');
 
 	$effect(() => {
 		if (!dialogEl) return;
@@ -20,6 +23,34 @@
 	function handleClose() {
 		open = false;
 		onclose();
+		// Reset state after a short delay so the closing animation isn't jarring
+		setTimeout(() => {
+			sent = false;
+			error = '';
+		}, 300);
+	}
+
+	async function handleSubmit(e) {
+		e.preventDefault();
+		sending = true;
+		error = '';
+
+		try {
+			const formData = new FormData(e.target);
+			await fetch(PUBLIC_NEWSLETTER_URL, {
+				method: 'POST',
+				body: formData,
+				mode: 'no-cors' // external provider won't have CORS headers
+			});
+			// With no-cors we can't read the response status,
+			// but if fetch didn't throw, the request was sent successfully
+			sent = true;
+		} catch (err) {
+			error = 'Something went wrong. Please try again.';
+			console.error('Newsletter error:', err);
+		} finally {
+			sending = false;
+		}
 	}
 </script>
 
@@ -29,34 +60,53 @@
 	</button>
 
 	<div class="modal-content">
-		<div class="icon-circle">
-			<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
-				<rect x="2" y="4" width="20" height="16" rx="2"/>
-				<polyline points="22,4 12,13 2,4"/>
-			</svg>
-		</div>
-
-		<h2>Stay Connected</h2>
-		<p>Subscribe to receive updates about new artworks and exhibitions</p>
-
-		<form method="post" action={PUBLIC_NEWSLETTER_URL} target="_blank" accept-charset="utf-8">
-			<input type="hidden" name="next" value="" />
-			<input type="hidden" name="a" value="ga0yzre3ec" />
-			<input type="hidden" name="l" value="jgyzi3xu6m" />
-
-			<div class="form-row">
-				<input type="text" name="NV65W9GTx7" placeholder="First name" />
-				<input type="text" name="1rgfyQeYt2" placeholder="Surname" />
+		{#if sent}
+			<div class="success-state">
+				<div class="icon-circle success">
+					<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+						<polyline points="22 4 12 14.01 9 11.01"/>
+					</svg>
+				</div>
+				<h2>You're subscribed!</h2>
+				<p>Thank you for signing up. You'll receive updates about new artworks and exhibitions.</p>
+				<button class="subscribe-btn" onclick={handleClose}>Close</button>
 			</div>
-			<input type="email" name="wg5PV9slKN" placeholder="Enter your email address" required />
+		{:else}
+			<div class="icon-circle">
+				<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
+					<rect x="2" y="4" width="20" height="16" rx="2"/>
+					<polyline points="22,4 12,13 2,4"/>
+				</svg>
+			</div>
 
-			<!-- Honeypot -->
-			<input autocomplete="new-password" type="email" name="email" style="position:absolute;top:-9999px;left:-9999px;" tabindex="-1" />
+			<h2>Stay Connected</h2>
+			<p>Subscribe to receive updates about new artworks and exhibitions</p>
 
-			<button type="submit" class="subscribe-btn">Subscribe to Newsletter</button>
-		</form>
+			<form onsubmit={handleSubmit}>
+				<input type="hidden" name="a" value="ga0yzre3ec" />
+				<input type="hidden" name="l" value="jgyzi3xu6m" />
 
-		<p class="disclaimer">Unsubscribe anytime. No spam, just art.</p>
+				<div class="form-row">
+					<input type="text" name="NV65W9GTx7" placeholder="First name" />
+					<input type="text" name="1rgfyQeYt2" placeholder="Surname" />
+				</div>
+				<input type="email" name="wg5PV9slKN" placeholder="Enter your email address" required />
+
+				<!-- Honeypot -->
+				<input autocomplete="new-password" type="email" name="email" style="position:absolute;top:-9999px;left:-9999px;" tabindex="-1" />
+
+				{#if error}
+					<p class="error-message">{error}</p>
+				{/if}
+
+				<button type="submit" class="subscribe-btn" disabled={sending}>
+					{sending ? 'Subscribing...' : 'Subscribe to Newsletter'}
+				</button>
+			</form>
+
+			<p class="disclaimer">Unsubscribe anytime. No spam, just art.</p>
+		{/if}
 	</div>
 </dialog>
 
@@ -177,6 +227,45 @@
 	.subscribe-btn:hover {
 		background-color: transparent;
 		color: var(--color-text);
+	}
+
+	.subscribe-btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	.success-state {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: var(--space-lg) 0;
+	}
+
+	.success-state h2 {
+		font-size: var(--step-3);
+		font-weight: 600;
+		margin-bottom: var(--space-sm);
+	}
+
+	.success-state p {
+		font-size: var(--step--1);
+		color: var(--color-text-muted);
+		line-height: 1.6;
+		max-width: 340px;
+		margin-bottom: var(--space-xl);
+	}
+
+	.icon-circle.success {
+		color: #38a169;
+		border-color: #38a16930;
+		background: #38a16910;
+	}
+
+	.error-message {
+		color: #e53e3e;
+		font-size: var(--step--1);
+		text-align: center;
 	}
 
 	.disclaimer {
