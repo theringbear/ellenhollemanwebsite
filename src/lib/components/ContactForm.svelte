@@ -15,7 +15,7 @@
 
 		try {
 			const formData = new FormData(e.target);
-			const response = await fetch('/__forms.html', {
+			const response = await fetch('/forms/contact.html', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 				body: new URLSearchParams(formData).toString()
