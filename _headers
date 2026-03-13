@@ -1,9 +1,0 @@
-/* Content of your previous static/_headers file, preserved for correct CSP and other headers */
-
-/* Example: */
-/*
-  /newsletter
-    Content-Security-Policy: connect-src 'self' https://newsletter-provider.com
-*/
-
-/* Add your actual header rules here */
