@@ -32,15 +32,24 @@
 		return end < today;
 	}
 
-	let happeningCount = $derived(data.events.filter(e => isHappening(e)).length);
-	let upcomingCount = $derived(data.events.filter(e => isUpcoming(e)).length);
-	let pastCount = $derived(data.events.filter(e => isPast(e)).length);
+	// Sort by end_date (descending), falling back to start date if no end_date
+	function sortDate(event) {
+		return new Date(event.end_date || event.date);
+	}
+
+	let sortedEvents = $derived(
+		[...data.events].sort((a, b) => sortDate(b) - sortDate(a))
+	);
+
+	let happeningCount = $derived(sortedEvents.filter(e => isHappening(e)).length);
+	let upcomingCount = $derived(sortedEvents.filter(e => isUpcoming(e)).length);
+	let pastCount = $derived(sortedEvents.filter(e => isPast(e)).length);
 
 	let filteredEvents = $derived.by(() => {
-		if (activeFilter === 'happening') return data.events.filter(e => isHappening(e));
-		if (activeFilter === 'upcoming') return data.events.filter(e => isUpcoming(e));
-		if (activeFilter === 'past') return data.events.filter(e => isPast(e));
-		return data.events;
+		if (activeFilter === 'happening') return sortedEvents.filter(e => isHappening(e));
+		if (activeFilter === 'upcoming') return sortedEvents.filter(e => isUpcoming(e));
+		if (activeFilter === 'past') return sortedEvents.filter(e => isPast(e));
+		return sortedEvents;
 	});
 </script>
 
@@ -61,7 +70,7 @@
 		<!-- Filter Pills -->
 		<div class="filter-pills">
 			<button class="filter-pill" class:active={activeFilter === 'all'} onclick={() => activeFilter = 'all'}>
-				All Events ({data.events.length})
+				All Events ({sortedEvents.length})
 			</button>
 			{#if happeningCount > 0}
 				<button class="filter-pill happening" class:active={activeFilter === 'happening'} onclick={() => activeFilter = 'happening'}>

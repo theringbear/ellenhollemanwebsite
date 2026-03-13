@@ -81,7 +81,7 @@
 				<ul class="nav-list">
 					<li class="nav-item"><a href="/portfolio" class:active={page.url.pathname.startsWith('/portfolio') || page.url.pathname.startsWith('/available')} onclick={closeNav}>Portfolio</a></li>
 					<li class="nav-item"><a href="/archive" class:active={page.url.pathname.startsWith('/archive')} onclick={closeNav}>Archive</a></li>
-					<li class="nav-item"><a href="/about" class:active={page.url.pathname.startsWith('/about')} onclick={closeNav}>About</a></li>
+					<li class="nav-item"><a href="/about" class:active={page.url.pathname.startsWith('/about')} onclick={closeNav}>My story</a></li>
 					<li class="nav-item"><a href="/calendar" class:active={page.url.pathname.startsWith('/calendar')} onclick={closeNav}>Calendar</a></li>
 					<li class="nav-item"><a href="/contact" class:active={page.url.pathname.startsWith('/contact')} onclick={closeNav}>Contact</a></li>
 				</ul>

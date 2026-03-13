@@ -19,7 +19,6 @@
 	const availabilities = [
 		{ slug: 'all', title: 'All Works' },
 		{ slug: 'available', title: 'Available' },
-		{ slug: 'sold', title: 'Sold' },
 		{ slug: 'private', title: 'Private Collection' },
 	];
 
@@ -31,7 +30,6 @@
 	function getAvailabilityCount(slug) {
 		if (slug === 'all') return data.artworks.length;
 		if (slug === 'available') return data.artworks.filter(a => a.availability === 'available').length;
-		if (slug === 'sold') return data.artworks.filter(a => a.availability === 'sold').length;
 		if (slug === 'private') return data.artworks.filter(a => a.availability === 'private_collection').length;
 		return 0;
 	}
@@ -43,8 +41,6 @@
 		}
 		if (activeAvailability === 'available') {
 			result = result.filter(a => a.availability === 'available');
-		} else if (activeAvailability === 'sold') {
-			result = result.filter(a => a.availability === 'sold');
 		} else if (activeAvailability === 'private') {
 			result = result.filter(a => a.availability === 'private_collection');
 		}
@@ -113,7 +109,7 @@
 						class:active={activeAvailability === avail.slug}
 						onclick={() => activeAvailability = avail.slug}
 					>
-						{avail.title}{#if getAvailabilityCount(avail.slug) > 0} ({getAvailabilityCount(avail.slug)}){/if}
+						{avail.title} {#if getAvailabilityCount(avail.slug) > 0} ({getAvailabilityCount(avail.slug)}){/if}
 					</button>
 				{/each}
 			</div>

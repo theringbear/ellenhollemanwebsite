@@ -181,6 +181,19 @@
 		aspect-ratio: 16 / 8;
 	}
 
+	.article-carousel :global(.single-image) {
+		aspect-ratio: 16 / 8;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.article-carousel :global(.single-image img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
 	/* Article body */
 	.article-body {
 		padding-bottom: var(--space-2xl);

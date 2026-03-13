@@ -76,7 +76,20 @@
 	});
 </script>
 
-{#if images.length > 0}
+{#if images.length === 1}
+	<div class="carousel-wrapper">
+		<div class="carousel single" role="region" aria-label="Image">
+			<div class="single-image">
+				<img
+					src={images[0]}
+					alt="{alt} - Image 1"
+					loading="eager"
+					draggable="false"
+				/>
+			</div>
+		</div>
+	</div>
+{:else if images.length > 1}
 	<div class="carousel-wrapper">
 		<div class="carousel" role="region" aria-label="Image carousel">
 			<div class="carousel-viewport">
@@ -92,29 +105,27 @@
 				{/each}
 			</div>
 
-			{#if images.length > 1}
-				<button class="carousel-btn prev" onclick={prev} aria-label="Previous image">
-					<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-						<polyline points="15 18 9 12 15 6" />
-					</svg>
-				</button>
-				<button class="carousel-btn next" onclick={next} aria-label="Next image">
-					<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-						<polyline points="9 18 15 12 9 6" />
-					</svg>
-				</button>
+			<button class="carousel-btn prev" onclick={prev} aria-label="Previous image">
+				<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+					<polyline points="15 18 9 12 15 6" />
+				</svg>
+			</button>
+			<button class="carousel-btn next" onclick={next} aria-label="Next image">
+				<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+					<polyline points="9 18 15 12 9 6" />
+				</svg>
+			</button>
 
-				<div class="carousel-dots">
-					{#each images as _, i}
-						<button
-							class="dot"
-							class:active={i === current}
-							onclick={() => goTo(i)}
-							aria-label="Go to slide {i + 1}"
-						></button>
-					{/each}
-				</div>
-			{/if}
+			<div class="carousel-dots">
+				{#each images as _, i}
+					<button
+						class="dot"
+						class:active={i === current}
+						onclick={() => goTo(i)}
+						aria-label="Go to slide {i + 1}"
+					></button>
+				{/each}
+			</div>
 		</div>
 
 		{#if showThumbnails && thumbnails.length > 1}
@@ -152,11 +163,24 @@
 		background: var(--color-border-light);
 	}
 
+	/* Single image — no absolute positioning, natural flow */
+	.single-image {
+		width: 100%;
+	}
+
+	.single-image img {
+		width: 100%;
+		height: auto;
+		display: block;
+		object-fit: cover;
+	}
+
 	.carousel-viewport {
 		position: relative;
 		width: 100%;
 		height: 100%;
 		aspect-ratio: 4 / 3;
+		min-height: 200px;
 	}
 
 	.slide {

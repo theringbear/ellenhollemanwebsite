@@ -223,6 +223,21 @@
 		aspect-ratio: 1 / 1;
 	}
 
+	.artwork-gallery :global(.single-image) {
+		aspect-ratio: 1 / 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-surface);
+	}
+
+	.artwork-gallery :global(.single-image img) {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		background: var(--color-surface);
+	}
+
 	.artwork-gallery :global(.slide img) {
 		object-fit: contain;
 		background: var(--color-surface);
@@ -508,6 +523,10 @@
 		}
 
 		.artwork-gallery :global(.carousel-viewport) {
+			aspect-ratio: 4 / 3;
+		}
+
+		.artwork-gallery :global(.single-image) {
 			aspect-ratio: 4 / 3;
 		}
 
