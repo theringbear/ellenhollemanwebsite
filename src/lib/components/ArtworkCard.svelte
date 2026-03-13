@@ -8,7 +8,7 @@
 
 	let firstImage = $derived(artwork.images?.[0]?.directus_files_id);
 	let imageUrl = $derived(firstImage
-		? assetUrl(firstImage, { width: '600', height: '800', fit: 'cover', quality: '80', format: 'webp' })
+		? assetUrl(firstImage, { width: '600', quality: '80', format: 'webp' })
 		: '');
 
 	const categoryColors = {
@@ -95,7 +95,7 @@
 
 	.artwork-image-wrap {
 		position: relative;
-		aspect-ratio: 3 / 4;
+		aspect-ratio: 1;
 		border-radius: var(--radius-xl);
 		overflow: hidden;
 		background: var(--color-border-light);
@@ -104,7 +104,8 @@
 	.artwork-image-wrap img {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
+		display: block;
 		transition: transform var(--transition-slow);
 	}
 
