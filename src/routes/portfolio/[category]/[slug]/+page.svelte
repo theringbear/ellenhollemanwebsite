@@ -30,6 +30,7 @@
 
 	let badgeColor = $derived(categoryColors[data.artwork.category] || '#666');
 
+	let isMural = $derived(data.artwork.category === 'murals');
 	let isAvailable = $derived(data.artwork.availability === 'available');
 	let isSold = $derived(data.artwork.availability === 'sold');
 	let isPrivateCollection = $derived(data.artwork.availability === 'private_collection');
@@ -87,35 +88,37 @@
 
 			<h1 class="artwork-title">{data.artwork.title}</h1>
 
-			<div class="artwork-meta">
-				{#if data.artwork.year}
-					<div class="meta-item">
-						<span class="meta-label">Year</span>
-						<span class="meta-value">{data.artwork.year}</span>
-					</div>
-				{/if}
+			{#if !isMural}
+				<div class="artwork-meta">
+					{#if data.artwork.year}
+						<div class="meta-item">
+							<span class="meta-label">Year</span>
+							<span class="meta-value">{data.artwork.year}</span>
+						</div>
+					{/if}
 
-				{#if data.artwork.materials}
-					<div class="meta-item">
-						<span class="meta-label">Medium</span>
-						<span class="meta-value">{data.artwork.materials}</span>
-					</div>
-				{/if}
+					{#if data.artwork.materials}
+						<div class="meta-item">
+							<span class="meta-label">Medium</span>
+							<span class="meta-value">{data.artwork.materials}</span>
+						</div>
+					{/if}
 
-				{#if data.artwork.dimensions}
-					<div class="meta-item">
-						<span class="meta-label">Dimensions</span>
-						<span class="meta-value">{data.artwork.dimensions}</span>
-					</div>
-				{/if}
+					{#if data.artwork.dimensions}
+						<div class="meta-item">
+							<span class="meta-label">Dimensions</span>
+							<span class="meta-value">{data.artwork.dimensions}</span>
+						</div>
+					{/if}
 
-				{#if data.artwork.collection_name}
-					<div class="meta-item">
-						<span class="meta-label">Collection</span>
-						<span class="meta-value">{data.artwork.collection_name}</span>
-					</div>
-				{/if}
-			</div>
+					{#if data.artwork.collection_name}
+						<div class="meta-item">
+							<span class="meta-label">Collection</span>
+							<span class="meta-value">{data.artwork.collection_name}</span>
+						</div>
+					{/if}
+				</div>
+			{/if}
 
 			{#if data.artwork.description}
 				<div class="about-section">
@@ -130,9 +133,11 @@
 				<div class="price">€{data.artwork.price.toLocaleString()}</div>
 			{/if}
 
-			<button class="inquire-btn" onclick={openInquiry}>
-				Inquire About This Work
-			</button>
+			{#if !isMural}
+				<button class="inquire-btn" onclick={openInquiry}>
+					Inquire About This Work
+				</button>
+			{/if}
 
 			{#if isAvailable}
 				<div class="availability">
