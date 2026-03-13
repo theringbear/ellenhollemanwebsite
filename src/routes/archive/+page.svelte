@@ -26,12 +26,12 @@
 </script>
 
 <svelte:head>
-	<title>Archive — Ellen Holleman</title>
+	<title>{data.pageTitles.archive} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">
 	<section class="archive-section">
-		<h1 class="page-title"><em>Archive</em></h1>
+		<h1 class="page-title"><em>{data.pageTitles.archive}</em></h1>
 		<p class="page-subtitle">Articles, thoughts, and writings on art, culture, and design</p>
 
 		<!-- Category Filter -->
@@ -72,7 +72,7 @@
 	}
 
 	.page-title em {
-		font-style: italic;
+		font-style: normal;
 		font-weight: 500;
 	}
 

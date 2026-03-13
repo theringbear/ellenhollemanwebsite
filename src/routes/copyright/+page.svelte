@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Copyright — Ellen Holleman</title>
+	<title>{data.page?.title || 'Copyright'} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">

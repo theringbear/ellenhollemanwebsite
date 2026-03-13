@@ -18,14 +18,14 @@
 </script>
 
 <svelte:head>
-	<title>About — Ellen Holleman</title>
-	<meta name="description" content="Learn about Ellen Holleman, a Dutch painter, mixed-media artist, and spatial designer." />
+	<title>{data.pageTitles.about} — {data.siteName}</title>
+	<meta name="description" content="Learn about {data.siteName}, a Dutch painter, mixed-media artist, and spatial designer." />
 </svelte:head>
 
 <div class="container">
 	<section class="about-section">
-		<h1 class="page-title"><em>About Ellen</em></h1>
-		<p class="page-subtitle">Visual artist based in the Netherlands</p>
+		<h1 class="page-title"><em>{data.pageTitles.about}</em></h1>
+		<p class="page-subtitle">{data.about?.title || 'Visual artist based in the Netherlands'}</p>
 
 		<!-- Hero Image Carousel -->
 		{#if aboutImages.length > 1}

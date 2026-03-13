@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Privacy Policy — Ellen Holleman</title>
+	<title>{data.page?.title || 'Privacy Policy'} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">

@@ -6,6 +6,7 @@
 
 	let current = $state(0);
 	let timer = $state(null);
+	let thumbnailsEl = $state(null);
 
 	function next() {
 		current = (current + 1) % images.length;
@@ -28,6 +29,42 @@
 			timer = setInterval(next, interval);
 		}
 	}
+
+	// Smooth scroll helper with easing
+	function smoothScrollTo(container, target, duration = 500) {
+		const containerRect = container.getBoundingClientRect();
+		const targetRect = target.getBoundingClientRect();
+		const targetCenter = targetRect.left + targetRect.width / 2 - containerRect.left;
+		const containerCenter = containerRect.width / 2;
+		const scrollTarget = container.scrollLeft + targetCenter - containerCenter;
+		const startScroll = container.scrollLeft;
+		const distance = scrollTarget - startScroll;
+		const startTime = performance.now();
+
+		function easeInOutCubic(t) {
+			return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+		}
+
+		function step(currentTime) {
+			const elapsed = currentTime - startTime;
+			const progress = Math.min(elapsed / duration, 1);
+			container.scrollLeft = startScroll + distance * easeInOutCubic(progress);
+			if (progress < 1) {
+				requestAnimationFrame(step);
+			}
+		}
+		requestAnimationFrame(step);
+	}
+
+	// Scroll active thumbnail into view
+	$effect(() => {
+		if (thumbnailsEl) {
+			const activeThumb = thumbnailsEl.children[current];
+			if (activeThumb) {
+				smoothScrollTo(thumbnailsEl, activeThumb, 500);
+			}
+		}
+	});
 
 	$effect(() => {
 		if (autoplay && images.length > 1) {
@@ -81,7 +118,7 @@
 		</div>
 
 		{#if showThumbnails && thumbnails.length > 1}
-			<div class="carousel-thumbnails">
+			<div class="carousel-thumbnails" bind:this={thumbnailsEl}>
 				{#each thumbnails as thumb, i}
 					<button
 						class="thumbnail"
@@ -102,11 +139,14 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-md);
+		max-width: 100%;
+		overflow: hidden;
 	}
 
 	.carousel {
 		position: relative;
 		width: 100%;
+		max-width: 100%;
 		border-radius: var(--radius-xl);
 		overflow: hidden;
 		background: var(--color-border-light);
@@ -207,7 +247,11 @@
 		display: flex;
 		gap: var(--space-sm);
 		overflow-x: auto;
+		max-width: 100%;
 		padding-bottom: var(--space-xs);
+		scroll-behavior: smooth;
+		-webkit-overflow-scrolling: touch;
+		border-radius: var(--radius-sm);
 	}
 
 	.carousel-thumbnails::-webkit-scrollbar {
@@ -223,7 +267,11 @@
 		cursor: pointer;
 		border: 2px solid transparent;
 		opacity: 0.5;
-		transition: all var(--transition-fast);
+		transform: scale(0.92);
+		transition: opacity 400ms cubic-bezier(0.25, 0.1, 0.25, 1),
+			border-color 400ms cubic-bezier(0.25, 0.1, 0.25, 1),
+			transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1),
+			box-shadow 400ms cubic-bezier(0.25, 0.1, 0.25, 1);
 		padding: 0;
 		background: var(--color-border-light);
 	}
@@ -231,10 +279,13 @@
 	.thumbnail.active {
 		opacity: 1;
 		border-color: var(--color-accent);
+		transform: scale(1);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 	}
 
 	.thumbnail:hover {
 		opacity: 0.85;
+		transform: scale(0.96);
 	}
 
 	.thumbnail img {

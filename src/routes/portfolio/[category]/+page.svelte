@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.categoryTitle} — Portfolio — Ellen Holleman</title>
+	<title>{data.categoryTitle} — {data.pageTitles.portfolio} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">

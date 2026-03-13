@@ -132,15 +132,22 @@ Access Directus locally at `http://localhost:8055`.
 
 ### 6. `site_settings` (Singleton)
 
-| Field              | Type   | Interface | Notes            |
-| ------------------ | ------ | --------- | ---------------- |
-| `id`               | uuid   | —         | Auto             |
-| `site_title`       | string | Input     | Site name        |
-| `description`      | text   | Textarea  | Meta description |
-| `email`            | string | Input     | Contact email    |
-| `social_facebook`  | string | Input     | Facebook URL     |
-| `social_instagram` | string | Input     | Instagram URL    |
-| `social_linkedin`  | string | Input     | LinkedIn URL     |
+| Field                  | Type   | Interface | Notes                                                         |
+| ---------------------- | ------ | --------- | ------------------------------------------------------------- |
+| `id`                   | uuid   | —         | Auto                                                          |
+| `site_title`           | string | Input     | Site name (used in browser tab titles, e.g. "Ellen Holleman") |
+| `description`          | text   | Textarea  | Meta description                                              |
+| `email`                | string | Input     | Contact email                                                 |
+| `social_facebook`      | string | Input     | Facebook URL                                                  |
+| `social_instagram`     | string | Input     | Instagram URL                                                 |
+| `social_linkedin`      | string | Input     | LinkedIn URL                                                  |
+| `page_title_home`      | string | Input     | Homepage subtitle (default: "Visual Artist")                  |
+| `page_title_portfolio` | string | Input     | Portfolio page title (default: "Portfolio")                   |
+| `page_title_archive`   | string | Input     | Archive page title (default: "Archive")                       |
+| `page_title_calendar`  | string | Input     | Calendar page title (default: "Events & Exhibitions")         |
+| `page_title_about`     | string | Input     | About page title (default: "About Ellen")                     |
+| `page_title_contact`   | string | Input     | Contact page title (default: "Get in Touch")                  |
+| `page_title_available` | string | Input     | Available works page title (default: "Available Works")       |
 
 ### 7. `homepage_settings` (Singleton)
 

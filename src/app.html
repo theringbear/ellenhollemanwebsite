@@ -42,6 +42,15 @@
     %sveltekit.head%
   </head>
   <body data-sveltekit-preload-data="hover">
+    <!-- Hidden form for Netlify Forms detection at deploy time -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input name="bot-field" />
+      <input name="from_name" />
+      <input name="email" />
+      <input name="phonenumber" />
+      <input name="painting" />
+      <textarea name="message"></textarea>
+    </form>
     <div style="display: contents">%sveltekit.body%</div>
   </body>
 </html>

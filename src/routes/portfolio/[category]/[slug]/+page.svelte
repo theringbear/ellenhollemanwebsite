@@ -45,7 +45,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.artwork.title} — {data.categoryTitle} — Ellen Holleman</title>
+	<title>{data.artwork.title} — {data.categoryTitle} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container detail-page">
@@ -157,6 +157,7 @@
 <style>
 	.detail-page {
 		padding-bottom: var(--space-4xl);
+		overflow-x: hidden;
 	}
 
 	/* Back button */
@@ -187,13 +188,16 @@
 		display: grid;
 		grid-template-columns: 1.1fr 0.9fr;
 		gap: var(--space-2xl);
-		align-items: center;
+		align-items: start;
+		min-width: 0;
 	}
 
 	/* Gallery */
 	.artwork-gallery {
 		position: sticky;
 		top: 100px;
+		min-width: 0;
+		overflow: hidden;
 	}
 
 	.artwork-gallery :global(.carousel-viewport) {
@@ -217,6 +221,8 @@
 		flex-direction: column;
 		gap: var(--space-md);
 		box-shadow: var(--glass-card-shadow);
+		min-width: 0;
+		word-break: break-word;
 	}
 
 	.category-badge {
@@ -414,6 +420,28 @@
 	}
 
 	/* Responsive */
+
+	/* Tablets and smaller laptops */
+	@media (max-width: 1200px) {
+		.artwork-detail {
+			grid-template-columns: 1fr 1fr;
+			gap: var(--space-xl);
+		}
+
+		.artwork-gallery {
+			position: static;
+		}
+
+		.artwork-card {
+			padding: var(--space-xl);
+		}
+
+		.artwork-title {
+			font-size: var(--step-2);
+		}
+	}
+
+	/* Tablets portrait — single column */
 	@media (max-width: 900px) {
 		.artwork-detail {
 			grid-template-columns: 1fr;
@@ -422,10 +450,136 @@
 
 		.artwork-gallery {
 			position: static;
+			max-width: min(600px, 100%);
+			margin: 0 auto;
+		}
+
+		.artwork-card {
+			padding: var(--space-xl);
 		}
 
 		.artwork-title {
 			font-size: var(--step-2);
+		}
+	}
+
+	/* Small tablets / large phones */
+	@media (max-width: 640px) {
+		.detail-page {
+			padding-bottom: var(--space-2xl);
+		}
+
+		.back-btn {
+			margin: var(--space-md) 0;
+			font-size: 0.82rem;
+			padding: 0.4rem 0.9rem;
+		}
+
+		.artwork-detail {
+			gap: var(--space-lg);
+		}
+
+		.artwork-card {
+			padding: var(--space-lg);
+			border-radius: var(--radius-lg);
+		}
+
+		.artwork-title {
+			font-size: var(--step-1);
+		}
+
+		.artwork-gallery :global(.carousel-viewport) {
+			aspect-ratio: 4 / 3;
+		}
+
+		.artwork-gallery :global(.carousel-btn) {
+			width: 38px;
+			height: 38px;
+		}
+
+		.artwork-gallery :global(.carousel-btn.prev) {
+			left: var(--space-sm);
+		}
+
+		.artwork-gallery :global(.carousel-btn.next) {
+			right: var(--space-sm);
+		}
+
+		.price {
+			font-size: var(--step-1);
+		}
+
+		.inquire-btn {
+			padding: 0.75rem 1.2rem;
+			font-size: var(--step--1);
+		}
+
+		.inquiry-dialog {
+			width: 95vw;
+			padding: var(--space-xl) var(--space-lg);
+		}
+
+		.modal-content h2 {
+			font-size: var(--step-2);
+		}
+
+		.icon-circle {
+			width: 50px;
+			height: 50px;
+		}
+	}
+
+	/* Small phones */
+	@media (max-width: 400px) {
+		.artwork-card {
+			padding: var(--space-md);
+		}
+
+		.artwork-title {
+			font-size: var(--step-0);
+		}
+
+		.category-badge {
+			font-size: 0.7rem;
+			padding: 0.25rem 0.7rem;
+		}
+
+		.meta-value {
+			font-size: var(--step--1);
+		}
+
+		.about-text {
+			font-size: 0.85rem;
+		}
+
+		.price {
+			font-size: var(--step-0);
+		}
+
+		.inquire-btn {
+			padding: 0.7rem 1rem;
+			font-size: 0.85rem;
+		}
+
+		.inquiry-dialog {
+			width: 98vw;
+			padding: var(--space-lg) var(--space-md);
+			border-radius: var(--radius-lg);
+		}
+
+		.modal-content h2 {
+			font-size: var(--step-1);
+		}
+
+		.icon-circle {
+			width: 44px;
+			height: 44px;
+			margin-bottom: var(--space-md);
+		}
+
+		.close-btn {
+			width: 28px;
+			height: 28px;
 		}
 	}
 </style>

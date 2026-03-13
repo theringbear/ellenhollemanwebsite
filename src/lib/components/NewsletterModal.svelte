@@ -37,7 +37,7 @@
 		</div>
 
 		<h2>Stay Connected</h2>
-		<p>Subscribe to receive updates about new artworks, exhibitions, and exclusive insights into my creative process.</p>
+		<p>Subscribe to receive updates about new artworks and exhibitions</p>
 
 		<form method="post" action={PUBLIC_NEWSLETTER_URL} target="_blank" accept-charset="utf-8">
 			<input type="hidden" name="next" value="" />

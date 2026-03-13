@@ -10,7 +10,11 @@ export async function load() {
   let carouselFileIds = [];
   if (homepageSettings?.carousel_artworks?.length > 0) {
     carouselFileIds = homepageSettings.carousel_artworks
-      .map((item) => typeof item.directus_files_id === 'object' ? item.directus_files_id?.id : item.directus_files_id)
+      .map((item) =>
+        typeof item.directus_files_id === "object"
+          ? item.directus_files_id?.id
+          : item.directus_files_id,
+      )
       .filter(Boolean);
   }
 

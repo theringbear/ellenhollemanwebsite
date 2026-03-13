@@ -51,12 +51,12 @@
 </script>
 
 <svelte:head>
-	<title>Portfolio — Ellen Holleman</title>
+	<title>{data.pageTitles.portfolio} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">
 	<section class="portfolio-section">
-		<h1 class="page-title">Portfolio</h1>
+		<em class="page-title">{data.pageTitles.portfolio}</em>
 		<p class="page-subtitle">A curated collection of visual artworks</p>
 
 		<!-- Category Filter -->
@@ -111,8 +111,9 @@
 
 	.page-title {
 		font-size: var(--step-5);
-		font-weight: 600;
 		margin-bottom: var(--space-xs);
+		font-style: normal;
+    	font-weight: 500;
 	}
 
 	.page-subtitle {

@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Terms & Conditions — Ellen Holleman</title>
+	<title>{data.page?.title || 'Terms & Conditions'} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">

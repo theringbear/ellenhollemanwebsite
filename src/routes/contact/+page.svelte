@@ -2,17 +2,18 @@
 	import ContactForm from '$lib/components/ContactForm.svelte';
 	import NewsletterModal from '$lib/components/NewsletterModal.svelte';
 
+	let { data } = $props();
 	let showNewsletter = $state(false);
 </script>
 
 <svelte:head>
-	<title>Contact — Ellen Holleman</title>
+	<title>{data.pageTitles.contact} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">
 	<section class="contact-section">
 		<div class="contact-header">
-			<h1>Get in Touch</h1>
+			<h1>{data.pageTitles.contact}</h1>
 			<p>Have a question about an artwork, want to collaborate, or just want to say hello? Send a message below.</p>
 		</div>
 
@@ -22,18 +23,24 @@
 			<div class="contact-aside">
 				<div class="info-card">
 					<h3>Contact Info</h3>
-					<a href="mailto:info@ellenholleman.nl" class="info-link">
+					<a href="mailto:{data.siteSettings?.email || 'info@ellenholleman.nl'}" class="info-link">
 						<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-						info@ellenholleman.nl
+						{data.siteSettings?.email || 'info@ellenholleman.nl'}
 					</a>
 				</div>
 
 				<div class="info-card">
 					<h3>Follow</h3>
 					<div class="social-row">
-						<a href="https://www.instagram.com/ellen_holleman/" target="_blank" rel="noopener">Instagram</a>
-						<a href="https://www.facebook.com/ellen.holleman1" target="_blank" rel="noopener">Facebook</a>
-						<a href="https://www.linkedin.com/in/ellen-holleman-429599a/" target="_blank" rel="noopener">LinkedIn</a>
+						{#if data.siteSettings?.social_instagram}
+							<a href={data.siteSettings.social_instagram} target="_blank" rel="noopener">Instagram</a>
+						{/if}
+						{#if data.siteSettings?.social_facebook}
+							<a href={data.siteSettings.social_facebook} target="_blank" rel="noopener">Facebook</a>
+						{/if}
+						{#if data.siteSettings?.social_linkedin}
+							<a href={data.siteSettings.social_linkedin} target="_blank" rel="noopener">LinkedIn</a>
+						{/if}
 					</div>
 				</div>
 
@@ -93,7 +100,7 @@
 		-webkit-backdrop-filter: var(--glass-blur);
 		border: 1px solid var(--glass-card-border);
 		border-radius: var(--radius-lg);
-		box-shadow: var(--glass-card-shadow);
+		/* box-shadow: var(--glass-card-shadow); */
 	}
 
 	.info-card h3 {

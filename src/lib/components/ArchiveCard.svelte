@@ -15,6 +15,15 @@
 		? item.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
 		: '');
 
+	const categoryColors = {
+		'cultural-productions': '#7b61a5',
+		'urban-activism': '#c4724a',
+		'spatial-design': '#4a9c8c',
+		'specials': '#c44a6e',
+	};
+
+	let badgeColor = $derived(categoryColors[item.category] || 'rgba(30, 30, 30, 0.85)');
+
 	// Estimate read time from description length
 	let readTime = $derived(() => {
 		if (!item.description) return '';
@@ -34,7 +43,7 @@
 			<img src={imageUrl} alt={item.title} loading="lazy" draggable="false" />
 		{/if}
 		{#if categoryLabel}
-			<span class="category-badge">{categoryLabel}</span>
+			<span class="category-badge" style="background-color: {badgeColor}">{categoryLabel}</span>
 		{/if}
 	</div>
 
@@ -99,7 +108,6 @@
 		position: absolute;
 		top: var(--space-md);
 		left: var(--space-md);
-		background: rgba(30, 30, 30, 0.85);
 		backdrop-filter: blur(8px);
 		color: white;
 		padding: 0.3rem 0.8rem;

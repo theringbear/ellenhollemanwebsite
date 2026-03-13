@@ -30,6 +30,9 @@ import { PUBLIC_DIRECTUS_URL } from "$env/static/public";
  * 5. "site_settings" (singleton)
  *    - id, site_title, description, email,
  *      social_facebook, social_instagram, social_linkedin
+ *    - page_title_home, page_title_portfolio, page_title_archive,
+ *      page_title_calendar, page_title_about, page_title_contact,
+ *      page_title_available (all optional string fields for CMS-editable page titles)
  *
  * 6. "pages" (collection) — for static pages like copyright, privacy, terms
  *    - id, status, title, slug, body (WYSIWYG)

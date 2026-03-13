@@ -37,8 +37,8 @@
 </script>
 
 <svelte:head>
-	<title>Ellen Holleman — Visual Artist</title>
-	<meta name="description" content="Ellen Holleman is a painter, mixed-media visual artist, and spatial designer based in Zaltbommel, Netherlands." />
+	<title>{data.siteName} — {data.pageTitles.home}</title>
+	<meta name="description" content="{data.siteSettings?.description || 'Ellen Holleman is a painter, mixed-media visual artist, and spatial designer based in Zaltbommel, Netherlands.'}" />
 </svelte:head>
 
 <!-- Hero Carousel -->

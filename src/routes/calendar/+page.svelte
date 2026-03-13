@@ -44,12 +44,12 @@
 </script>
 
 <svelte:head>
-	<title>Calendar — Ellen Holleman</title>
+	<title>{data.pageTitles.calendar} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">
 	<section class="calendar-section">
-		<h1 class="page-title">Events & Exhibitions</h1>
+		<h1 class="page-title">{data.pageTitles.calendar}</h1>
 		<p class="page-subtitle">Upcoming shows and past exhibitions</p>
 
 		<!-- Filter Pills -->

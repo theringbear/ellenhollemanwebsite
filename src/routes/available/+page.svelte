@@ -5,12 +5,12 @@
 </script>
 
 <svelte:head>
-	<title>Available Works — Ellen Holleman</title>
+	<title>{data.pageTitles.available} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">
 	<section class="section">
-		<h1 class="section-title">Available Works</h1>
+		<h1 class="section-title">{data.pageTitles.available}</h1>
 
 		{#if data.artworks.length > 0}
 			<div class="artwork-grid">

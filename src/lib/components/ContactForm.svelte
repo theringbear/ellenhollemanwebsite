@@ -1,6 +1,4 @@
 <script>
-	import { PUBLIC_EMAILJS_SERVICE_ID, PUBLIC_EMAILJS_TEMPLATE_ID, PUBLIC_EMAILJS_PUBLIC_KEY } from '$env/static/public';
-
 	/**
 	 * @type {{ artworkTitle?: string }}
 	 */
@@ -16,25 +14,29 @@
 		error = '';
 
 		try {
-			const { default: emailjs } = await import('@emailjs/browser');
-			emailjs.init(PUBLIC_EMAILJS_PUBLIC_KEY);
-			await emailjs.sendForm(
-				PUBLIC_EMAILJS_SERVICE_ID,
-				PUBLIC_EMAILJS_TEMPLATE_ID,
-				e.target
-			);
+			const formData = new FormData(e.target);
+			const response = await fetch('/__forms.html', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				body: new URLSearchParams(formData).toString()
+			});
+			if (!response.ok) throw new Error('Form submission failed');
 			sent = true;
 			e.target.reset();
 		} catch (err) {
 			error = 'Failed to send message. Please try again or email directly.';
-			console.error('EmailJS error:', err);
+			console.error('Form error:', err);
 		} finally {
 			sending = false;
 		}
 	}
 </script>
 
-<form onsubmit={handleSubmit} class="contact-form">
+<form onsubmit={handleSubmit} class="contact-form" name="contact" data-netlify="true" netlify-honeypot="bot-field">
+	<input type="hidden" name="form-name" value="contact" />
+	<p class="honeypot" aria-hidden="true">
+		<label>Don't fill this out: <input name="bot-field" /></label>
+	</p>
 	{#if sent}
 		<div class="success-message">
 			<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -91,6 +93,10 @@
 		gap: var(--space-lg);
 		max-width: 520px;
 		width: 100%;
+	}
+
+	.honeypot {
+		display: none;
 	}
 
 	.form-group {

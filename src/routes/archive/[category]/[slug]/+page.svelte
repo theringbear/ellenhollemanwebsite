@@ -37,7 +37,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.item.title} — {data.categoryTitle} — Ellen Holleman</title>
+	<title>{data.item.title} — {data.categoryTitle} — {data.siteName}</title>
 </svelte:head>
 
 <article class="article-page">

@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.categoryTitle} — Archive — Ellen Holleman</title>
+	<title>{data.categoryTitle} — {data.pageTitles.archive} — {data.siteName}</title>
 </svelte:head>
 
 <div class="container">
