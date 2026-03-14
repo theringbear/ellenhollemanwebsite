@@ -80,7 +80,7 @@
 
 <div class="container">
 	<section class="portfolio-section">
-		<em class="page-title">{data.pageTitles.portfolio}</em>
+		<h1 class="page-title"><em>{data.pageTitles.portfolio}</em></h1>
 		<p class="page-subtitle">A curated collection of visual artworks</p>
 
 		<!-- Category Filter -->
@@ -140,8 +140,10 @@
 	.page-title {
 		font-size: var(--step-5);
 		margin-bottom: var(--space-xs);
+	}
+	.page-title em {
 		font-style: normal;
-    	font-weight: 500;
+		font-weight: 500;
 	}
 
 	.page-subtitle {

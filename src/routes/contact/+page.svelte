@@ -19,7 +19,7 @@
 <div class="container">
 	<section class="contact-section">
 		<div class="contact-header">
-			<h1>{data.pageTitles.contact}</h1>
+			<h1 class="page-title"><em>{data.pageTitles.contact}</em></h1>
 			<p>Have a question about an artwork, want to collaborate, or just want to say hello? Send a message below.</p>
 		</div>
 
@@ -73,10 +73,13 @@
 		margin-bottom: var(--space-3xl);
 	}
 
-	.contact-header h1 {
-		font-size: var(--step-4);
-		font-weight: 400;
-		margin-bottom: var(--space-md);
+	.page-title {
+		font-size: var(--step-5);
+		margin-bottom: var(--space-xs);
+	}
+	.page-title em {
+		font-style: normal;
+		font-weight: 500;
 	}
 
 	.contact-header p {

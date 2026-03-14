@@ -105,7 +105,7 @@
 
 	.page-title {
 		font-size: var(--step-5);
-		font-weight: 600;
+		font-weight: 500;
 		margin-bottom: var(--space-xs);
 	}
 

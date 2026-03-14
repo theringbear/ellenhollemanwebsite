@@ -65,19 +65,7 @@
 				<span class="logo-subtitle">visual artist</span>
 			</a>
 
-			<button
-				class="menu-toggle"
-				class:active={navOpen}
-				onclick={toggleNav}
-				aria-label="Toggle menu"
-				aria-expanded={navOpen}
-			>
-				<span class="bar"></span>
-				<span class="bar"></span>
-				<span class="bar"></span>
-			</button>
-
-			<nav class="nav" class:open={navOpen}>
+			<nav class="nav">
 				<ul class="nav-list">
 					<li class="nav-item"><a href="/portfolio" class:active={page.url.pathname.startsWith('/portfolio') || page.url.pathname.startsWith('/available')} onclick={closeNav}>Portfolio</a></li>
 					<li class="nav-item"><a href="/archive" class:active={page.url.pathname.startsWith('/archive')} onclick={closeNav}>Archive</a></li>
@@ -93,8 +81,56 @@
 					{/if}
 				</button>
 			</nav>
+
 		</div>
 	</header>
+
+	<!-- Hamburger outside <header>: backdrop-filter on .header creates a containing block
+	     that traps position:fixed children, so the button must live here to be truly viewport-fixed -->
+	<button
+		class="menu-toggle"
+		class:active={navOpen}
+		onclick={toggleNav}
+		aria-label="Toggle menu"
+		aria-expanded={navOpen}
+	>
+		<span class="bar"></span>
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+
+	<!-- Mobile overlay -->
+	<div class="mobile-overlay" class:open={navOpen} aria-hidden={!navOpen}>
+		<div class="mobile-overlay-top">
+			<a href="/" class="logo" onclick={closeNav}>
+				<span class="logo-name">Ellen Holleman</span>
+				<span class="logo-subtitle">visual artist</span>
+			</a>
+			<button class="mobile-close" onclick={closeNav} aria-label="Close menu">
+				<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				Close
+			</button>
+		</div>
+		<nav class="mobile-nav" aria-label="Main navigation">
+			<ul class="mobile-nav-list">
+				<li class="mobile-nav-item"><a href="/portfolio" class:active={page.url.pathname.startsWith('/portfolio') || page.url.pathname.startsWith('/available')} onclick={closeNav}>Portfolio</a></li>
+				<li class="mobile-nav-item"><a href="/archive" class:active={page.url.pathname.startsWith('/archive')} onclick={closeNav}>Archive</a></li>
+				<li class="mobile-nav-item"><a href="/about" class:active={page.url.pathname.startsWith('/about')} onclick={closeNav}>My story</a></li>
+				<li class="mobile-nav-item"><a href="/calendar" class:active={page.url.pathname.startsWith('/calendar')} onclick={closeNav}>Calendar</a></li>
+				<li class="mobile-nav-item"><a href="/contact" class:active={page.url.pathname.startsWith('/contact')} onclick={closeNav}>Contact</a></li>
+			</ul>
+		</nav>
+		<div class="mobile-overlay-footer">
+			<button class="dark-mode-toggle-overlay" onclick={toggleDarkMode} aria-label="Toggle dark mode">
+				{#if darkMode}
+					<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+				{:else}
+					<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+				{/if}
+				<span>{darkMode ? 'Light mode' : 'Dark mode'}</span>
+			</button>
+		</div>
+	</div>
 
 	<main class="page-content" style="padding-top: 90px;">
 		{@render children()}
@@ -320,48 +356,192 @@
 		transform: rotate(-45deg) translate(5px, -5px);
 	}
 
+	/* ===== Mobile hamburger ===== */
 	@media (max-width: 900px) {
 		.menu-toggle {
 			display: flex;
+			position: fixed;
+			top: var(--space-md);
+			right: var(--space-md);
+			z-index: 300;
+			height: 68px;
+			padding: 0 var(--space-lg);
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			gap: 5px;
+			background: transparent;
+			border: none;
+			transition: opacity var(--transition-base);
+		}
+
+		/* Fade out hamburger once overlay opens — close button inside the overlay takes over */
+		.menu-toggle.active {
+			opacity: 0;
+			pointer-events: none;
 		}
 
 		.nav {
-			position: fixed;
-			top: 0;
-			right: 0;
-			width: min(380px, 85vw);
-			height: 100vh;
-			background: rgba(255, 255, 255, 0.98);
-			backdrop-filter: blur(24px);
-			-webkit-backdrop-filter: blur(24px);
-			transform: translateX(100%);
-			transition: transform var(--transition-base);
-			padding: 6rem var(--space-2xl) var(--space-2xl);
-			box-shadow: -10px 0 40px rgba(0, 0, 0, 0.1);
-			overflow-y: auto;
-			flex-direction: column;
+			display: none;
 		}
+	}
 
-		.nav.open {
-			transform: translateX(0);
-		}
+	/* ===== Mobile overlay ===== */
+	.mobile-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 200;
+		background: var(--color-bg);
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		visibility: hidden;
+		pointer-events: none;
+		transform: translateX(100%);
+		transition:
+			transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+			visibility 0s linear 0.4s;
+	}
 
-		.nav-list {
-			flex-direction: column;
-			align-items: stretch;
-			gap: var(--space-sm);
-		}
+	.mobile-overlay.open {
+		transform: translateX(0);
+		visibility: visible;
+		pointer-events: auto;
+		transition:
+			transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+			visibility 0s linear 0s;
+	}
 
-		.nav-item > a {
-			font-size: var(--step-0);
-			padding: 0.65rem 1.25rem;
-			text-align: center;
+	@media (min-width: 901px) {
+		.mobile-overlay {
+			display: none !important;
 		}
+	}
 
-		.dark-mode-toggle {
-			margin-top: var(--space-lg);
-			align-self: center;
-		}
+	/* Top bar — mirrors the header height so it aligns visually */
+	.mobile-overlay-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 var(--space-xl);
+		height: calc(68px + var(--space-md) * 2);
+		flex-shrink: 0;
+		border-bottom: 1px solid var(--color-border-light);
+	}
+
+	.mobile-close {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.35rem 0.9rem 0.35rem 0.75rem;
+		font-size: 0.82rem;
+		font-weight: 500;
+		letter-spacing: 0.01em;
+		color: var(--color-text);
+		border: 1px solid var(--glass-border);
+		border-radius: 100px;
+		background: transparent;
+		cursor: pointer;
+		transition: all var(--transition-fast);
+	}
+
+	.mobile-close:hover {
+		border-color: var(--color-accent);
+	}
+
+	/* Nav — centred vertically in the remaining space */
+	.mobile-nav {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: var(--space-2xl) var(--space-xl);
+	}
+
+	.mobile-nav-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+		width: 100%;
+		max-width: 320px;
+	}
+
+	.mobile-nav-item {
+		opacity: 0;
+		transform: translateY(10px);
+		transition: opacity 0.3s ease, transform 0.3s ease;
+	}
+
+	.mobile-overlay.open .mobile-nav-item:nth-child(1) { transition-delay: 0.12s; opacity: 1; transform: translateY(0); }
+	.mobile-overlay.open .mobile-nav-item:nth-child(2) { transition-delay: 0.17s; opacity: 1; transform: translateY(0); }
+	.mobile-overlay.open .mobile-nav-item:nth-child(3) { transition-delay: 0.22s; opacity: 1; transform: translateY(0); }
+	.mobile-overlay.open .mobile-nav-item:nth-child(4) { transition-delay: 0.27s; opacity: 1; transform: translateY(0); }
+	.mobile-overlay.open .mobile-nav-item:nth-child(5) { transition-delay: 0.32s; opacity: 1; transform: translateY(0); }
+
+	.mobile-nav-item > a {
+		display: block;
+		padding: 0.75rem 1.5rem;
+		font-size: 1rem;
+		font-weight: 500;
+		text-align: center;
+		color: var(--color-text);
+		border: 1px solid var(--glass-border);
+		border-radius: 100px;
+		background: transparent;
+		transition: all var(--transition-fast);
+		letter-spacing: 0.01em;
+	}
+
+	.mobile-nav-item > a:hover {
+		border-color: var(--color-accent);
+		opacity: 1;
+	}
+
+	.mobile-nav-item > a.active {
+		background: var(--color-text);
+		color: var(--color-bg);
+		border-color: var(--color-text);
+	}
+
+	/* Footer bar with dark mode toggle */
+	.mobile-overlay-footer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: var(--space-xl);
+		border-top: 1px solid var(--color-border-light);
+		opacity: 0;
+		transform: translateY(6px);
+		transition: opacity 0.3s ease 0.35s, transform 0.3s ease 0.35s;
+	}
+
+	.mobile-overlay.open .mobile-overlay-footer {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.dark-mode-toggle-overlay {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		padding: 0.35rem 0.9rem;
+		color: var(--color-text-muted);
+		font-size: 0.82rem;
+		font-weight: 400;
+		letter-spacing: 0.04em;
+		background: transparent;
+		border: 1px solid var(--glass-border);
+		border-radius: 100px;
+		cursor: pointer;
+		transition: all var(--transition-fast);
+	}
+
+	.dark-mode-toggle-overlay:hover {
+		color: var(--color-text);
+		border-color: var(--color-accent);
 	}
 
 	/* ===== Footer ===== */
@@ -471,10 +651,5 @@
 		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
 	}
 
-	@media (max-width: 900px) {
-		:global(html.dark) .nav {
-			background: rgba(0, 0, 0, 0.98);
-			box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
-		}
-	}
+
 </style>

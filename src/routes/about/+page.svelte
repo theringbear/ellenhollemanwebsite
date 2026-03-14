@@ -58,7 +58,7 @@
 		<!-- Two-column content -->
 		<div class="about-columns">
 			<div class="about-col">
-				<h2>Biography</h2>
+				<h2>My story</h2>
 				{#if data.about?.body}
 					<div class="prose">
 						{@html data.about.body}
@@ -69,7 +69,7 @@
 			</div>
 
 			<div class="about-col">
-				<h2>Artistic Philosophy</h2>
+				<h2>Artist Statement</h2>
 				{#if data.about?.artist_statement}
 					<div class="prose">
 						{@html data.about.artist_statement}

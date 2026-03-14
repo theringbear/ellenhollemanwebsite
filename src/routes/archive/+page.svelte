@@ -38,7 +38,7 @@
 <div class="container">
 	<section class="archive-section">
 		<h1 class="page-title"><em>{data.pageTitles.archive}</em></h1>
-		<p class="page-subtitle">Articles, thoughts, and writings on art, culture, and design</p>
+		<p class="page-subtitle">Articles and writings on art, culture, and design</p>
 
 		<!-- Category Filter -->
 		<div class="filter-pills">
